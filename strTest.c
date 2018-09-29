@@ -3,62 +3,15 @@
 //Systems pd05
 //2018-09-17
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 
-int str_len(char *x){
-  int count = 0;
-  while(*x++){
-    count++;
-  }
-  return count;
-}
-
-char* str_cpy(char *dest, char *source){
-    char *dest2 = dest;
-    char *source2 = source;  //creates pointers in order to traverse the array
-    
-    while(*source2){        //copies char in source into dest, then window moves to next char in source
-        *dest2 = *source2;
-        dest2++;
-        source2++;
-    }
-    *dest2 = *source2;    //copies terminating null
-    return dest;
-}
-
-
-int str_cmp( char *s1, char *s2 ){
-    char *pointy = s1;  //creates pointers in order to traverse the array
-    char *sharp = s2;
-    
-    if (*pointy == 0 && *sharp == 0){  //Base case: if both strings have terminating nulls in the same place, then they are the same
-        return 0;
-    }
-    if (*pointy > *sharp){
-        return 1;
-    }
-    if (*pointy < *sharp){
-        return -1;
-    }
-    
-    return strcmp(s1+1,s2+1);  //Recursive case: now we know s1 and s2 point to the same value, so we must examine the next pair of chars
-}
-
-
-char* str_chr( char *s, char c ){
-    char *pointy = s;
-    while (*pointy && *pointy != c){ //keeps searching until pointy encounters a 0 or the target
-        pointy++;
-    }
-    return pointy;
-}
+#include "strFunc.h"
 
 int main(){
     
-    printf("\nTesting strlen()\n");
+    printf("\nTesting str_len()\n");
     char good[] = "good";
     char bye[10] = "bye";
     char empty[] = "";
@@ -69,7 +22,7 @@ int main(){
     printf("~Our implementation~ length of bye: %d\n",str_len(bye));
     printf("~Our implementation~ length of empty: %d\n",str_len(empty));
     
-    printf("\nTesting strcpy()\n");
+    printf("\nTesting str_cpy()\n");
     char fish1[] = "fish";
     char fish2[] = "fish";
     char cow1[] = "cow";
@@ -80,7 +33,18 @@ int main(){
     printf("~Our implementation~ copy cow to fish: [%s]\n",str_cpy(fish2,cow2));
     printf("~Our implementation~ copy empty to cow: [%s]\n",str_cpy(cow2,empty));
 
-    printf("\nTesting strcmp()\n");
+    printf("\nTesting strn_cat()\n");
+
+    char pink[] = "pink"; char eye[] = "eyeeye";
+    printf("~Library implementation~ concatenate pink onto eyeeye, append 3 chars: %s\n",strncat(pink,eye,3));
+    char pink2[] = "pink"; char eye2[] = "eyeeye";
+    printf("~Our implementation~ concatenate pink onto eyeeye, append 3 chars: %s\n",strn_cat(pink2,eye2,3));
+    char green[] = "green"; char can[] = "cantaloupe";
+    printf("~Library implementation~ concatenate green onto cantaloupe, append 3 chars: %s\n",strncat(green,can,3));
+    char green2[] = "green"; char can2[] = "cantaloupe";
+    printf("~Our implementation~ concatenate green onto cantaloupe, append 3 chars: %s\n",strn_cat(green2,can2,3));
+
+    printf("\nTesting str_cmp()\n");
     char abc[] = "abc";
     char abc2[] = "abc2";
     char aba[] = "aba";
@@ -93,14 +57,13 @@ int main(){
     printf("~Our implementation~ abc to aba: %d\n",str_cmp(abc,aba));
     printf("~Our implementation~ abc to abc: %d\n",str_cmp(abc,abc));
     
-    printf("\nTesting strchr\n");
+    printf("\nTesting str_chr()\n");
     char knife[] = "knife";
     
     printf("~Library implementation~ f in knife: %c\n",*strchr(knife,'f'));
     printf("~Library implementation~ z in knife: %s\n",strchr(knife,'z'));
-    printf("~Our implementation~ f in knife: %c\n",*strchr(knife,'f'));
-    printf("~Our implementation~ z in knife: %s\n",strchr(knife,'z'));
+    printf("~Our implementation~ f in knife: %c\n",*str_chr(knife,'f'));
+    printf("~Our implementation~ z in knife: %s\n",str_chr(knife,'z'));
 
-    
     return 0;
 }
